@@ -1,18 +1,14 @@
 import { useAuth } from "../context/AuthContext";
 
 function Dashboard() {
-  const { user, logout } = useAuth();
+  const { user } = useAuth();
 
   return (
-    <div className="p-8">
-      <h1 className="text-2xl font-bold">Dashboard</h1>
-      <p className="mt-2">Logged in as {user?.name}</p>
-      <button
-        onClick={logout}
-        className="mt-4 rounded bg-indigo-600 px-4 py-2 text-white"
-      >
-        Log out
-      </button>
+    <div>
+      <h1 className="text-2xl font-bold">Hello, {user?.name}</h1>
+      <p className="mt-1 text-slate-500">
+        {user?.course} · Semester {user?.semester} · {user?.college}
+      </p>
     </div>
   );
 }
