@@ -41,6 +41,9 @@ const loginUser = async (req, res) => {
         _id: user._id,
         name: user.name,
         email: user.email,
+        college: user.college,
+        course: user.course,
+        semester: user.semester,
         token: generateToken(user._id),
       });
     } else {
