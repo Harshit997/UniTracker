@@ -207,6 +207,59 @@ const deleteComment = async (req, res) => {
   }
 };
 
+const getStats = async (req, res) => {
+  try {
+    const applications = await Application.find({ user: req.user._id })
+      .sort({ createdAt: -1 })
+      .lean();
+
+    const byStatus = {};
+    const byCategory = { "on-campus": 0, "off-campus": 0 };
+
+    applications.forEach((app) => {
+      byStatus[app.status] = (byStatus[app.status] || 0) + 1;
+      byCategory[app.category] += 1;
+    });
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const closedStatuses = ["accepted", "rejected", "withdrawn"];
+
+    const summary = (app) => ({
+      _id: app._id,
+      companyName: app.companyName,
+      role: app.role,
+      status: app.status,
+      category: app.category,
+      deadline: app.deadline,
+    });
+
+    const upcomingDeadlines = applications
+      .filter(
+        (app) =>
+          app.deadline &&
+          app.deadline >= today &&
+          !closedStatuses.includes(app.status)
+      )
+      .sort((a, b) => a.deadline - b.deadline)
+      .slice(0, 5)
+      .map(summary);
+
+    const recent = applications.slice(0, 5).map(summary);
+
+    res.json({
+      total: applications.length,
+      byCategory,
+      byStatus,
+      upcomingDeadlines,
+      recent,
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 
 module.exports = {
   createApplication,
@@ -219,4 +272,5 @@ module.exports = {
   deleteHr,
   addComment,
   deleteComment,
+  getStats
 };

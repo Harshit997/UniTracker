@@ -49,3 +49,8 @@ export const deleteComment = async (id, commentId) => {
   const { data } = await api.delete(`/applications/${id}/comments/${commentId}`);
   return data;
 };
+
+export const getStats = async () => {
+  const { data } = await api.get("/applications/stats");
+  return data;
+};

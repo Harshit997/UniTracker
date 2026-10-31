@@ -10,7 +10,9 @@ const {
   deleteHr,
   addComment,
   deleteComment,
+  getStats
 } = require("../controllers/applicationController");
+
 const { protect } = require("../middleware/authMiddleware");
 
 const router = express.Router();
@@ -18,7 +20,7 @@ const router = express.Router();
 router.use(protect);
 
 router.route("/").get(getApplications).post(createApplication);
-
+router.get("/stats", getStats);
 router
   .route("/:id")
   .get(getApplicationById)
