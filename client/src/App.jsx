@@ -7,6 +7,7 @@ import PlacementsHome from "./pages/placements/PlacementsHome";
 import ComingSoon from "./pages/ComingSoon";
 import ProtectedRoute from "./components/ProtectedRoute";
 import AppLayout from "./components/layout/AppLayout";
+import ApplicationDetail from "./pages/placements/ApplicationDetail";
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
       >
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/placements" element={<PlacementsHome />} />
+        <Route path="/placements/:id" element={<ApplicationDetail />} />
         <Route path="/academics" element={<ComingSoon title="Academics" />} />
         <Route path="/notes" element={<ComingSoon title="Notes" />} />
         <Route path="/exams" element={<ComingSoon title="Exam Prep" />} />
